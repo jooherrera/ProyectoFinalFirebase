@@ -1,0 +1,443 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <script src="https://kit.fontawesome.com/b15499eb96.js" crossorigin="anonymous"></script>
+    <title>WS</title>
+
+  </head>
+  <body>
+
+    <div class="d-flex  flex-row justify-content-around w-50 m-auto mt-5 mb-5">
+      <!-- <button type="button" class="btn btn-primary" id="prodView">Productos</button> -->
+
+      <div class="form-check form-switch w-auto h-auto d-flex">
+        <input class="form-check-input m-auto" type="checkbox" id="flexSwitchCheckDefault">
+        <label class="form-check-label  m-auto" for="flexSwitchCheckDefault">Soy ADMIN</label>
+      </div>
+    </div>
+
+    <div class="container mb-2">
+      <button type="button" class="btn btn-primary" id="newCarrito" >Nuevo Carrito</button>
+      <button type="button" class="btn btn-primary" id="deleteCarrito" >Borrar Carrito</button>
+      <button type="button" class="btn btn-primary" id="viewCarrito" >Ver Carrito</button>
+    </div>
+  
+<!-- botones de admin -->
+    <div class="container" id="buttons" style="visibility : hidden">
+
+      <button type="button" class="btn btn-danger" id="addProduct" >Agregar producto</button>
+      <!-- <button type="button" class="btn btn-danger" id="actProduct">Actualizar producto</button> -->
+      <!-- <button type="button" class="btn btn-danger" id="carritoView" style="visibility : hidden">Carrito</button>
+      <button type="button" class="btn btn-danger" id="addProduct" style="visibility : hidden">Agregar producto</button>
+      <button type="button" class="btn btn-danger" id="actProduct" style="visibility : hidden">Actualizar producto</button> -->
+    </div>
+
+    <hr>
+
+
+    <div class="container input-group mb-3 w-25">
+      <span class="input-group-text" ><i class="fas fa-search"></i></span>
+      <input id ="search" type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+      <button id="btnSearch" type="button" class="btn btn-primary">Buscar</button>
+    </div>
+    <hr>
+
+    <!-- <span id="formulario"></span> -->
+    <div class="container" id="cards"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.runtime.js"></script>
+
+    <script src="./templates/cards.precompiled.js"></script>
+    <script src="./templates/producto.precompiled.js"></script>
+    <script src="./templates/cardsCart.precompiled.js"></script>
+    <!-- <script>
+
+          fetch("/api/productos")
+            .then(resp => resp.json())
+            .then(data => {
+              console.log(data)
+              var template = Handlebars.compile(text)
+              const html = template({data : data})
+              document.querySelector('span').innerHTML = html 
+            })
+            .catch(
+              document.querySelector('span').innerHTML = `<h1 class="text-center text-danger">No se encontraron productos</h1>`
+            )     
+ 
+   
+      if (window.history.replaceState) { // verificamos disponibilidad
+        window.history.replaceState(null, null, window.location.href);
+      }
+    </script> -->
+
+      <script src="./env.js"></script>
+    <script>
+
+
+      
+
+      const btnProd = document.getElementById('prodView')
+      
+     
+      const inputSearch = document.getElementById('search')
+      const btnSearch = document.getElementById('btnSearch')
+      const checkAdmin = document.getElementById('flexSwitchCheckDefault')
+
+      // Botones de ADMIN
+      const buttons = document.getElementById('buttons')
+      
+      const btnAddProduct = document.getElementById('addProduct')
+      // const actProduct = document.getElementById('actProduct')
+     
+      //AGREGAR PRODUCTO
+      btnAddProduct.addEventListener('click',()=>{
+        window.location.href = 'formulario.html?isAdmin=true'
+      })
+
+      // //ACTUALIZAR
+      // btnAddProduct.addEventListener('click',()=>{
+      //   window.location.href = 'formulario.html?isAdmin=true'
+      // })
+
+
+    checkAdmin.addEventListener('change',()=> {
+      const deleteAdmin = document.querySelectorAll('.adminn')
+  
+      buttons.style.visibility = "visible"
+
+      //Visibilidad de los botones
+      if(checkAdmin.checked){
+        deleteAdmin.forEach((element) =>{
+          element.style.visibility = "visible"
+          element.style.display = "block"
+        });
+      }else{
+        buttons.style.visibility = "hidden"
+        deleteAdmin.forEach((element) =>{
+          element.style.visibility = "hidden"
+          element.style.display = "none"
+        });
+      }
+    })
+
+
+      // btnProd.addEventListener('click',()=> {
+      //   document.getElementById('cards').innerHTML = ""
+      //   let isAdmin = checkAdmin.checked
+
+      //   fetch('http://localhost:8080/productos')
+      //     .then(response => response.json())
+      //     .then(data => {
+      //       let html2 = Handlebars.templates['cards']({data})
+      //       document.getElementById('cards').innerHTML = html2
+      //       let deleteAdmin = document.querySelectorAll('.adminn')
+      //       if(isAdmin){
+      //         deleteAdmin.forEach((element) =>{
+      //           element.style.visibility = "visible"
+      //   });
+      //       }
+      //     });
+      // })
+
+
+      btnSearch.addEventListener('click',()=> {
+
+        // console.log(checkAdmin.checked)
+
+        document.getElementById('cards').innerHTML = ""
+        let value = inputSearch.value
+        
+        let isAdmin = checkAdmin.checked
+        if(value === ""){
+
+          // fetch('http://localhost:8080/productos')
+          fetch(`${HOST}/productos`)
+          .then(response => response.json())
+          .then(data => {
+
+            if(!data.res){
+              let html2 = Handlebars.templates['cards']({data})
+              document.getElementById('cards').innerHTML = html2
+
+
+              //BOTON AGREGAR AL CARRITO
+              const addToCart = document.querySelectorAll('.addToCart')
+
+                  // console.log(addToCart)
+                  addToCart.forEach((element) =>{
+                  // console.log(element)
+                      element.addEventListener('click',async()=>{
+
+                          try {
+                            let id = prompt("Ingrese el id del carrito para agregar el producto")
+                           if(!id){ throw `Ingresar un numero`}
+
+                            const respuesta = await fetch(`${HOST}/productos/${element.id}`)
+                            const data = await respuesta.json()
+                            // console.log(data[0])
+                           const respuestaAdd = await  fetch(`${HOST}/carrito/${id}/productos`,{
+                                method : 'POST',
+                                body : JSON.stringify({
+                                  id: element.id,
+                                  producto : data[0]
+                                }),
+                                headers:{
+                                  'Content-Type': 'application/json'
+                                }
+                              })
+                            // const dataAdd = await respuestaAdd.json()
+         
+                            if(respuestaAdd.status === 200){
+                             alert("Producto agregado!")
+                            } 
+                            if(respuestaAdd.status === 404){
+                              throw `Producto no encontrado en la base de datos`
+                            } 
+                            if(respuestaAdd.status === 401){
+                              throw `No se puede agregar, no existe el carrito`
+                            } 
+                 
+                          } catch (error) {
+                            alert(error)
+                          }
+                      })
+
+                    });
+
+
+              let deleteAdmin = document.querySelectorAll('.adminn')
+              if(isAdmin){
+                buttons.style.display = "visible"
+                deleteAdmin.forEach((element) =>{
+                  element.style.visibility = "visible"
+                  element.style.display = "block"
+                })            
+            }
+          }else{
+              let html2 = Handlebars.templates['producto']()
+              document.getElementById('cards').innerHTML = html2
+            }
+          })
+          .then(() =>{ //ACCIONES DE LOS BOTONES DE ADMIN
+            let deleteBtn = document.querySelectorAll('.deleteBtn')
+            let actualizarBtn = document.querySelectorAll('.actualizarBtn')
+
+            //Boton DE BORRAR
+            deleteBtn.forEach((element) =>{
+               element.addEventListener('click',()=>{
+                fetch(`${HOST}/productos/${element.id}`,{
+                  method : 'DELETE',
+                  body : JSON.stringify({isAdmin : true}),
+                  headers: {
+                      "Content-Type": "application/json",
+                  }
+                }).then(() => {
+                  alert("Se elimino el producto")
+                  location.href = 'index.html'
+
+                  })
+                  .catch(() => {
+                    alert("No se pudo elimiar el producto")
+                  })
+
+               })
+          })
+        
+          
+         //BOTON DE ACTUALIZAR
+         actualizarBtn.forEach((element) =>{
+               element.addEventListener('click',(elem)=>{
+                // fetch(`http://localhost:8080/productos/${element.id}`,{
+                //   method : 'DELETE',
+                //   body : JSON.stringify({isAdmin : true}),
+                //   headers: {
+                //       "Content-Type": "application/json",
+                //   }
+                // }).then(() => {
+                //   alert("Se elimino el producto")
+                //   location.href = 'index.html'
+
+                //   })
+                //   .catch(() => {
+                //     alert("No se pudo elimiar el producto")
+                //   })
+                // console.table(element.getAttribute("identificador"))
+                  location.href = `actualizar.html?isAdmin=true&identificador=${element.getAttribute("identificador")}`
+                  // console.log(elem)
+                  // location.href = `actualizar.html?isAdmin=true&identificador=${value}`
+               })
+          })
+        
+        
+        
+        
+        })
+
+
+
+
+
+        }else{
+        fetch(`${HOST}/productos/?id=${value.toLowerCase()}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data)
+            if(!data.res){
+              // let html2 = Handlebars.templates['producto']({data})
+              // document.getElementById('cards').innerHTML = html2
+              let html2 = Handlebars.templates['cards']({data})
+              document.getElementById('cards').innerHTML = html2
+
+ //BOTON AGREGAR AL CARRITO
+ const addToCart = document.querySelectorAll('.addToCart')
+
+console.log(addToCart)
+addToCart.forEach((element) =>{
+console.log(element)
+    element.addEventListener('click',async()=>{
+
+        try {
+          let id = parseInt(prompt("Ingrese el id del carrito para agregar el producto"), 10)
+         if(!id){ throw `Ingresar un numero`}
+
+          const respuesta = await fetch(`${HOST}/productos/${element.id}`)
+          const data = await respuesta.json()
+          console.log(data)
+         const respuestaAdd = await  fetch(`${HOST}/carrito/${id}/productos`,{
+              method : 'POST',
+              body : JSON.stringify({
+                id: element.id,
+                producto : data
+              }),
+              headers:{
+                'Content-Type': 'application/json'
+              }
+            })
+          // const dataAdd = await respuestaAdd.json()
+
+          if(respuestaAdd.status === 200){
+           alert("Producto agregado!")
+          } 
+          if(respuestaAdd.status === 404){
+            throw `Producto no encontrado en la base de datos`
+          } 
+          if(respuestaAdd.status === 401){
+            throw `No se puede agregar, no existe el carrito`
+          } 
+
+        } catch (error) {
+          alert(error)
+        }
+    })
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+              let deleteAdmin = document.querySelectorAll('.adminn')
+              if(isAdmin){
+                buttons.style.display = "visible"
+              deleteAdmin.forEach((element) =>{
+                element.style.visibility = "visible"
+                element.style.display = "block"
+        });
+            }
+            }else{
+              let html2 = Handlebars.templates['producto']()
+              document.getElementById('cards').innerHTML = html2
+            }
+            
+          })
+
+          .then(() =>{ //ACCIONES DE LOS BOTONES DE ADMIN
+            let deleteBtn = document.querySelectorAll('.deleteBtn')
+            let actualizarBtn = document.querySelectorAll('.actualizarBtn')
+
+            //BOTON ELIMINAR POR ID
+            deleteBtn.forEach((element) =>{
+               element.addEventListener('click',()=>{
+                console.log(element.id)
+                fetch(`${HOST}/productos/${element.id}`,{
+
+                  method : 'DELETE',
+                  body : JSON.stringify({isAdmin : true}),
+                  headers: {
+                      "Content-Type": "application/json",
+                  }
+                }).then(() => {
+                  alert("Se elimino el producto")
+                  location.href = 'index.html'
+
+                  })
+                  .catch(() => {alert("No se pudo elimiar el producto")})
+
+               })
+
+      
+
+          })
+        
+          //BOTON DE ACTUALIZAR
+         actualizarBtn.forEach((element) =>{
+               element.addEventListener('click',()=>{
+                //  console.log(value)
+                // fetch(`http://localhost:8080/productos/${element.id}`,{
+                //   method : 'DELETE',
+                //   body : JSON.stringify({isAdmin : true}),
+                //   headers: {
+                //       "Content-Type": "application/json",
+                //   }
+                // }).then(() => {
+                //   alert("Se elimino el producto")
+                //   location.href = 'index.html'
+
+                //   })
+                //   .catch(() => {
+                //     alert("No se pudo elimiar el producto")
+                //   })
+                  location.href = `actualizar.html?isAdmin=true&identificador=${value}`
+               })
+          })
+        
+        
+        })
+
+
+
+          
+        }
+
+      })
+
+          
+    </script>
+
+
+    <script src="./index.js"></script>
+    <script src="./btnDeleteCarrito.js"></script>
+    <script src="./viewCarrito.js"></script>
+    
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+  </body>
+</html>

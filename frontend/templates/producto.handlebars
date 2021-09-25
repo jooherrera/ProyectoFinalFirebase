@@ -1,0 +1,63 @@
+<div>
+
+
+  {{#if data}}
+
+  <div class="row  row-cols-md-3  g-4">
+   <div class="col m-auto mt-3">
+      <div class="card h-100 w-100">
+        <div class="d-flex w-auto h-auto mt-2">
+          <img src={{data.pictureURL}} class="text-center m-auto" alt="..." width="70" height="70" >
+        </div>
+        
+        <div class="card-body h-auto w-auto">
+          <h5 class="card-title text-center ">{{data.title}}</h5>
+          <p class="card-text">{{data.descripcion}}</p>
+        </div>
+        <div class="card-footer  w-auto ">
+        <div class=" d-flex  m-auto">
+          <button type="button" class="btn btn-primary addToCart" id={{data.id}}> <small> Agregar al carrito</small></button>
+            <p class=" text-center m-auto text-black-50"><b>${{data.price}}</b></p>
+        </div>
+
+     
+           <div class="adminn" style="visibility : hidden; display : none">
+          <div class="mt-2 " >
+             <button type="button" class="btn btn-danger deleteBtn" id={{data.id}} > <small>Eliminar producto</small> </button>
+             
+          </div>
+           <div class="mt-2 " >
+             <button type="button" class="btn btn-danger actualizarBtn {{data.id}}" identificador = {{data.id}} > <small>Actualizar</small> </button>
+          </div>
+        </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {{else}}
+
+ <div class="row  row-cols-md-3  g-4">
+   <div class="col m-auto mt-3">
+      <div class="card h-100 w-100">
+        <div class="d-flex w-auto h-auto">
+          {{!-- <img src={{data.pictureURL}} class="text-center m-auto" alt="..." width="70" height="70" > --}}
+        </div>
+        
+        <div class="card-body h-auto w-auto">
+          <h5 class="card-title text-center ">No existe</h5>
+          <p class="card-text">El producto que estas buscando no existe.</p>
+        </div>
+        <div class="card-footer d-flex ">
+        
+          <button type="button" disabled class="btn btn-primary">Agregar al carrito</button>
+            <p class="text-muted text-center m-auto">$ xxxxx </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{{/if }}
+
+</div>

@@ -1,0 +1,51 @@
+<div>
+{{!-- {{#if isAdmin}} --}}
+{{#if data}}
+
+  
+  <div class="row  row-cols-1 row-cols-md-3  g-4">
+    {{#each data}}
+   <div class="col m-auto mt-3">
+      <div class="card h-100 w-100">
+        <div class="d-flex w-auto h-auto mt-2">
+          <img src={{this.pictureURL}} class="text-center m-auto" alt="..." width="70" height="70" >
+        </div>
+        
+        <div class="card-body h-auto w-auto">
+          <h5 class="card-title  text-center ">{{this.title}}</h5>
+          <p class="card-text">{{this.descripcion}}</p>
+        </div>
+        <div class="card-footer  w-auto ">
+        <div class=" d-flex  m-auto">
+          <button type="button" class="btn btn-danger deleteBtn" id={{this.id}} > <small>Eliminar producto</small> </button>
+            <p class=" text-center m-auto text-black-50"><b>${{this.price}}</b></p>
+        </div>
+        {{!-- <div class="adminn" style="visibility : hidden; display : none">
+          <div class="mt-2 " >
+             <button type="button" class="btn btn-danger deleteBtn" id={{this.id}} > <small>Eliminar producto</small> </button>
+             
+          </div>
+           <div class="mt-2 " >
+             <button type="button" class="btn btn-danger actualizarBtn "  identificador = {{this.id}} > <small>Actualizar</small> </button>
+          </div>
+        </div> --}}
+         
+
+        </div>
+
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{else}}
+
+  <h1>No hay productos en el carrito</h1>
+
+{{/if }}
+
+
+{{!-- {{/if}} --}}
+
+
+</div>
+{{!-- <script src="./addToCart.js"></script> --}}

@@ -1,0 +1,113 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+
+
+    <title>Ingresar producto</title>
+
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.runtime.js"></script>
+
+    <script src="templates/nuevoProducto.precompiled.js"></script>
+  
+
+    <span id="formulario"></span>
+
+
+
+
+
+
+
+
+
+    <script src="./env.js"></script>
+    <script>
+
+
+
+
+
+      var queryDict = {}
+      location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
+      // console.log(window.location.search.substr(1))
+      if(queryDict.isAdmin){
+      let html = Handlebars.templates['nuevoProducto']()
+      document.getElementById('formulario').innerHTML = html
+
+
+      // const title = document.getElementById('title')
+      // const price = document.getElementById('price')
+      // const pictureURL = document.getElementById('pictureURL')
+
+      const form = document.getElementById('Form')
+
+      form.addEventListener('submit',(e) =>{
+        e.preventDefault()
+        const title = document.getElementById('title').value
+        const price = document.getElementById('price').value
+        const pictureURL = document.getElementById('pictureURL').value
+        const descripcion = document.getElementById('descripcion').value
+        const codigo = document.getElementById('codigo').value
+        const stock = document.getElementById('stock').value
+        let fyh = new Date().toLocaleString()
+
+        try {
+          fetch(`${HOST}/productos`,{
+          method : 'POST',
+          body : JSON.stringify({
+           
+            timestamp : new Date().toLocaleString(),
+            title : title.toLowerCase(),
+            description : descripcion,
+            code: codigo,
+            pictureURL : pictureURL,
+            price : price,
+            stock : stock,
+            isAdmin : true
+          }),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then(res => {
+          if(res.status === 401){ 
+            alert("No se pudo agregar el producto")
+            location.href = 'index.html'
+           }else{
+          alert("Se agrego un producto al carrito")
+          location.href = 'index.html'
+        }
+        }
+          )
+        } catch (error) {
+          console.log(error)
+        }
+        
+      
+       
+
+          
+      })
+
+ 
+
+
+      }else{
+        console.log("Denegado")
+      }
+
+     
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>

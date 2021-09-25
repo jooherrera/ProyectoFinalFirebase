@@ -1,0 +1,52 @@
+<div class="container">
+    <h2 class="text-center mb-3"> Ingrese producto</h2>
+    <form class="form-floating" action="http://localhost:8080/productos" method="POST" id="Form" >
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="title" placeholder="Nombre" name="title" required>
+      <label for="floatingInput">Nombre</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="number" class="form-control" id="price" placeholder="Precio" name="price" required>
+      <label for="floatingInput">Precio</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="pictureURL" placeholder="pictureURL" name="pictureURL" required>
+      <label for="floatingPassword">Foto URL</label>
+    </div> 
+
+     <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="descripcion" placeholder="descripcion" name="descripcion" required>
+      <label for="floatingPassword">Descripcion</label>
+    </div>
+
+     <div class="form-floating mb-3">
+      <input type="number" class="form-control" id="codigo" placeholder="codigo" name="codigo" required>
+      <label for="floatingPassword">Codigo</label>
+    </div>
+     <div class="form-floating mb-3">
+      <input type="number" class="form-control" id="stock" placeholder="stock" name="stock" required>
+      <label for="floatingPassword">Stock</label>
+    </div>
+
+    <div class="d-flex justify-content-around m-auto w-50">
+      <div class="text-center mt-5">
+        <a href="index.html">
+         <button type="button" id="btnBacj" class="btn btn-danger mb-3">Volver</button>
+      </a>
+        <button type="submit" id="send" class="btn btn-primary mb-3">Enviar</button>
+       
+      </div>
+
+
+      {{!-- <div class="text-center mt-5">
+        <button type="button" id="buttonGetByID" class="btn btn-primary mb-3">Ver productos</button>
+      </div> --}}
+  </div>
+  </form>
+
+ 
+
+<!-- Button trigger modal -->
+
+  
+  </div> 
